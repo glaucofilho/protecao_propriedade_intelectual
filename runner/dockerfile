@@ -1,0 +1,15 @@
+# Imagem base
+FROM python:3.11.3-slim-buster
+
+# Copia dos arquivos de interesse
+COPY ./dist/app /app
+
+# Define o diretorio de trabalho
+WORKDIR /app
+
+# Liberacao de Firewall
+EXPOSE 5000
+
+# Define o comando de entrada
+ENTRYPOINT ["/app/main"]
+

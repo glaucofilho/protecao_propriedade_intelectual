@@ -1,0 +1,23 @@
+# Imagem base
+FROM python:3.11.3-slim-buster
+
+# Copia dos arquivos de interesse
+COPY ./src /build
+COPY ./src/wait.py /app/wait.py
+
+COPY requirements.txt /build/requirements.txt
+
+# Define o diretorio de build
+WORKDIR /build
+
+# updates e instalacoes necessarias
+RUN apt-get update && apt-get install -y binutils
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Compila o código Python
+RUN pyinstaller --onefile --distpath /app main.py
+
+WORKDIR /app
+
+# Define o comando de entrada
+ENTRYPOINT ["python", "wait.py"]
